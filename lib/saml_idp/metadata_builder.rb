@@ -32,6 +32,10 @@ module SamlIdp
 
             entity.IDPSSODescriptor protocolSupportEnumeration: protocol_enumeration do |descriptor|
               build_key_descriptor descriptor
+              descriptor.SingleLogoutService Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+                Location: single_logout_service_post_location if single_logout_service_post_location.present?
+              descriptor.SingleLogoutService Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+                Location: single_logout_service_redirect_location if single_logout_service_redirect_location.present?
               build_name_id_formats descriptor
               descriptor.SingleSignOnService Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
                 Location: single_service_post_location
@@ -148,7 +152,9 @@ module SamlIdp
       organization_url
       attribute_service_location
       single_service_post_location
+      single_service_redirect_location
       single_logout_service_post_location
+      single_logout_service_redirect_location
       technical_contact
     ].each do |delegatable|
       define_method(delegatable) do

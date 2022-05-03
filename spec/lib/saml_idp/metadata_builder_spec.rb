@@ -31,9 +31,16 @@ module SamlIdp
       expect(Saml::XML::Document.parse(subject.signed).valid_signature?(cloudhsm_idp_x509_cert_fingerprint)).to be_truthy
     end
 
-    it "includes logout element" do
-      subject.configurator.single_logout_service_post_location = 'https://example.com/saml/logout'
+    it "does not include logout element when unconfigured" do
+      subject.configurator.single_logout_service_post_location = nil
+
       expect(subject.fresh).not_to include('SingleLogoutService')
+    end
+
+    it "include logout element" do
+      subject.configurator.single_logout_service_post_location = 'https://example.com/saml/logout'
+
+      expect(subject.fresh).to include('SingleLogoutService')
     end
   end
 end
