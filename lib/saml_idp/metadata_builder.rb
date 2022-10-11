@@ -32,11 +32,6 @@ module SamlIdp
 
             entity.IDPSSODescriptor protocolSupportEnumeration: protocol_enumeration, WantAuthnRequestsSigned: want_authn_requests_signed.present? do |descriptor|
               build_key_descriptor descriptor
-              build_name_id_formats descriptor
-              descriptor.SingleSignOnService Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
-                Location: single_service_post_location
-              descriptor.SingleSignOnService Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
-                Location: single_service_post_location
               descriptor.SingleLogoutService Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
                 Location: single_logout_service_post_location
               descriptor.SingleLogoutService Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
@@ -44,7 +39,12 @@ module SamlIdp
               if remote_logout_service_post_location.present?
                 descriptor.SingleLogoutService Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
                   Location: remote_logout_service_post_location
-              end
+              end              
+              descriptor.SingleSignOnService Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
+                Location: single_service_post_location
+              descriptor.SingleSignOnService Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
+                Location: single_service_post_location              
+              build_name_id_formats descriptor
               build_attribute descriptor
             end
 
