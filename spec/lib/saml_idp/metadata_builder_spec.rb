@@ -45,6 +45,12 @@ module SamlIdp
       subject.configurator.remote_logout_service_post_location = nil
       expect(subject.fresh.scan(/SingleLogoutService/).count).to eq(2)
     end
+    
+    it "include logout element" do
+      subject.configurator.single_logout_service_post_location = 'https://example.com/saml/logout'
+
+      expect(subject.fresh).to include('SingleLogoutService')
+    end
 
     it "does not want requests signed by default" do
       expect(subject.fresh.scan(/WantAuthnRequestsSigned="false"/).count).to eq(1)

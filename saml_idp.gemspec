@@ -47,6 +47,7 @@ section of the README.
   s.add_dependency('faraday')
   s.add_dependency('nokogiri', '>= 1.10.2')
   s.add_dependency("pkcs11")
+  s.add_dependency("rexml")
 
   s.add_development_dependency("capybara", "~> 3.15.1")
   s.add_development_dependency("listen")
@@ -55,7 +56,7 @@ section of the README.
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec"
   s.add_development_dependency "rubocop", "0.76.0"
-  s.add_development_dependency "ruby-saml", "~> 1.11.0"
+  s.add_development_dependency "ruby-saml", "~> 1.14.0"
   s.add_development_dependency "simplecov", "~> 0.17.0"
   s.add_development_dependency "sqlite3"
   s.add_development_dependency("timecop")
