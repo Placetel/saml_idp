@@ -15,6 +15,7 @@ module SamlIdp
     def encrypt(raw_xml)
       encryption_template = Nokogiri::XML::Document.parse(build_encryption_template).root
       encrypted_data = Xmlenc::EncryptedData.new(encryption_template)
+
       @encryption_key = encrypted_data.encrypt(raw_xml)
       encrypted_key_node = encrypted_data.node.at_xpath(
         '//xenc:EncryptedData/ds:KeyInfo/xenc:EncryptedKey',

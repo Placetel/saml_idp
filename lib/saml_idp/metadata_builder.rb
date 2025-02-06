@@ -43,7 +43,8 @@ module SamlIdp
               descriptor.SingleSignOnService Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
                 Location: single_service_post_location
               descriptor.SingleSignOnService Binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
-                Location: single_service_post_location              
+                Location: single_service_post_location
+              
               build_name_id_formats descriptor
               build_attribute descriptor
             end
@@ -66,10 +67,12 @@ module SamlIdp
     alias_method :raw, :fresh
 
     def build_key_descriptor(el)
-      el.KeyDescriptor use: "signing" do |key_descriptor|
-        key_descriptor.KeyInfo xmlns: Saml::XML::Namespaces::SIGNATURE do |key_info|
-          key_info.X509Data do |x509|
-            x509.X509Certificate x509_certificate
+      [x509_certificate, rollover_x509_certificate].reject(&:blank?).each do |certificate|
+        el.KeyDescriptor use: "signing" do |key_descriptor|
+          key_descriptor.KeyInfo xmlns: Saml::XML::Namespaces::SIGNATURE do |key_info|
+            key_info.X509Data do |x509|
+              x509.X509Certificate certificate
+            end
           end
         end
       end

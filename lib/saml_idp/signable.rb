@@ -116,6 +116,15 @@ module SamlIdp
     end
     private :x509_certificate
 
+    def rollover_x509_certificate
+      (@rollover_x509_certificate || SamlIdp.config.rollover_x509_certificate).
+        to_s.
+        gsub(/-----BEGIN CERTIFICATE-----/, '').
+        gsub(/-----END CERTIFICATE-----/, '').
+        delete("\n")
+    end
+    private :rollover_x509_certificate
+
     def noko_raw
       Nokogiri::XML::Document.parse(get_raw)
     end
